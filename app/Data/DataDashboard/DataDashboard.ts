@@ -79,8 +79,8 @@ export const sidebarItemsAdmin: Menu[] =  [
     icon: Inbox,
   },
   {
-    title: "Calendar",
-    url: "/Dashboard_reception/Formulaire",
+    title: "Gestion des patients",
+    url: "/Dashboard_admin/Gestion_patients",
     icon: Calendar,
   },
   {

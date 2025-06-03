@@ -28,13 +28,13 @@ const stats = [
   },
 ];
 
-export default function Dashboard() {
+export default function DashboardStats() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 p-6">
       {stats.map((item, index) => (
         <Card
           key={index}
-          className={`flex justify-between items-center p-24 rounded-2xl border-gray-200 ${item.border} border`}
+          className={`className="flex justify-between items-start p-4 ${item.border} border`}
         >
           <div>
             <p className="text-sm text-gray-500">{item.title}</p>
