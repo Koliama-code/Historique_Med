@@ -1,5 +1,10 @@
+import Formulaire from "@/components/Formulaire/formulaire";
 import React from "react";
 
 export default function page() {
-  return <div>formulaire</div>;
+  return (
+    <div>
+      <Formulaire />
+    </div>
+  );
 }

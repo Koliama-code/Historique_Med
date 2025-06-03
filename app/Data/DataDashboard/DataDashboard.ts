@@ -70,12 +70,12 @@ export const sidebarItemsDoctor: Menu[] =  [
 export const sidebarItemsAdmin: Menu[] =  [
   {
     title: "Home",
-    url: "/Dashboard_reception",
+    url: "/Dashboard_admin",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: "Gestion Docteur",
+    url: "/Dashboard_admin/Gestion_doctor",
     icon: Inbox,
   },
   {

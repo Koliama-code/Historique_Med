@@ -1,5 +1,10 @@
 import React from "react";
+import Dashboard from "@/components/Dashboard/dashboard";
 
-export default function page() {
-  return <div>reception</div>;
+export default function Page() {
+  return (
+    <div>
+      <Dashboard />
+    </div>
+  );
 }
