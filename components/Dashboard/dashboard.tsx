@@ -30,21 +30,27 @@ const stats = [
 
 export default function DashboardStats() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 p-6">
-      {stats.map((item, index) => (
-        <Card
-          key={index}
-          className={`className="flex justify-between items-start p-4 ${item.border} border`}
-        >
-          <div>
-            <p className="text-sm text-gray-500">{item.title}</p>
-            <p className="text-lg font-semibold text-gray-800">{item.value}</p>
-          </div>
-          <div className={`${item.bg} p-2 rounded-lg`}>
-            <div className={`${item.iconWrapper} p-1 rounded`}>{item.icon}</div>
-          </div>
-        </Card>
-      ))}
+    <div className="sticky top-0 z-40 bg-white shadow border-b border-gray-200 p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {stats.map((item, index) => (
+          <Card
+            key={index}
+            className={`flex justify-between items-start p-4 ${item.border} border`}
+          >
+            <div>
+              <p className="text-sm text-gray-500">{item.title}</p>
+              <p className="text-lg font-semibold text-gray-800">
+                {item.value}
+              </p>
+            </div>
+            <div className={`${item.bg} p-2 rounded-lg`}>
+              <div className={`${item.iconWrapper} p-1 rounded`}>
+                {item.icon}
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

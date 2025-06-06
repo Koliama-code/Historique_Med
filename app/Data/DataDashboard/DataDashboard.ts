@@ -7,7 +7,7 @@ import { Calendar, Home, Inbox, Search, Settings, Stethoscope,
   LogOut,
   Bell,
   History as LucideHistory,
-  User,
+  Users,
   History, } from "lucide-react";
 
 export const sidebarItemsReception: Menu[] =  [
@@ -76,12 +76,12 @@ export const sidebarItemsAdmin: Menu[] =  [
   {
     title: "Gestion Docteur",
     url: "/Dashboard_admin/Gestion_doctor",
-    icon: Inbox,
+    icon: Stethoscope,
   },
   {
     title: "Gestion des patients",
     url: "/Dashboard_admin/Gestion_patients",
-    icon: Calendar,
+    icon: Users,
   },
   {
     title: "Search",

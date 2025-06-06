@@ -1,9 +1,25 @@
 "use client";
 import React, { useState } from "react";
 import { Edit2, Trash2, Plus, Search } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { X } from "lucide-react";
 
 const PatientsManagement = () => {
-  const [showAddForm, setShowAddForm] = useState(false);
+  const [search, setSearch] = useState("");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const patients = [
+    {
+      nom: "Jean Dupont",
+      age: 45,
+      email: "jean.dupont@example.com",
+      telephone: "0612345678",
+    },
+  ];
+
+  const filteredPatients = patients.filter((p) =>
+    p.nom.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -11,13 +27,103 @@ const PatientsManagement = () => {
         <h2 className="text-2xl font-semibold text-gray-800">
           Gestion des Patients
         </h2>
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          <Plus size={20} />
-          Ajouter un patient
-        </button>
+        <Dialog.Root open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+          <Dialog.Trigger asChild>
+            <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+              <Plus size={20} />
+              Ajouter un patient
+            </button>
+          </Dialog.Trigger>
+
+          <Dialog.Portal>
+            <Dialog.Overlay className="fixed inset-0 bg-black/50 z-40" />
+            <Dialog.Content className="fixed z-50 top-1/2 left-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-xl">
+              <div className="flex justify-between items-center mb-4">
+                <Dialog.Title className="text-xl font-semibold text-gray-800">
+                  Ajouter un nouveau patient
+                </Dialog.Title>
+                <Dialog.Close asChild>
+                  <button className="text-gray-500 hover:text-gray-700">
+                    <X />
+                  </button>
+                </Dialog.Close>
+              </div>
+
+              <form className="space-y-5">
+                <div>
+                  <label className="block text-gray-600 mb-2">
+                    Nom complet
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600 mb-2">Sexe</label>
+                  <select className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300">
+                    <option value="">Sélectionner</option>
+                    <option value="M">Masculin</option>
+                    <option value="F">Féminin</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-600 mb-2">Âge</label>
+                  <input
+                    type="number"
+                    className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600 mb-2">Email</label>
+                  <input
+                    type="email"
+                    className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600 mb-2">Téléphone</label>
+                  <input
+                    type="text"
+                    className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600 mb-2">
+                    Mot de passe
+                  </label>
+                  <input
+                    type="password"
+                    className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600 mb-2">Adresse</label>
+                  <input
+                    type="text"
+                    className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
+                  />
+                </div>
+                <div className="flex gap-4 mt-8">
+                  <button
+                    type="submit"
+                    className="flex-1 h-11 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Ajouter
+                  </button>
+                  <Dialog.Close asChild>
+                    <button
+                      type="button"
+                      className="flex-1 h-11 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Annuler
+                    </button>
+                  </Dialog.Close>
+                </div>
+              </form>
+            </Dialog.Content>
+          </Dialog.Portal>
+        </Dialog.Root>
       </div>
 
       <div className="mb-6 relative">
@@ -26,7 +132,9 @@ const PatientsManagement = () => {
         </div>
         <input
           type="text"
-          placeholder="Rechercher par nom ou numéro..."
+          placeholder="Rechercher par nom..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           className="w-full pl-10 pr-4 py-2 bg-gray-50 text-gray-800 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300"
         />
       </div>
@@ -36,98 +144,45 @@ const PatientsManagement = () => {
           <thead className="text-gray-600 border-b border-gray-200">
             <tr>
               <th className="py-3 px-4">Nom</th>
+              <th className="py-3 px-4">Âge</th>
               <th className="py-3 px-4">Email</th>
               <th className="py-3 px-4">Téléphone</th>
-              <th className="py-3 px-4">Adresse</th>
               <th className="py-3 px-4">Actions</th>
             </tr>
           </thead>
           <tbody className="text-gray-700">
-            <tr className="border-b border-gray-200 hover:bg-gray-50">
-              <td className="py-3 px-4">Patient Exemple</td>
-              <td className="py-3 px-4">patient@example.com</td>
-              <td className="py-3 px-4">987654321</td>
-              <td className="py-3 px-4">Adresse Exemple</td>
-              <td className="py-3 px-4">
-                <div className="flex gap-2">
-                  <button className="text-blue-600 hover:text-blue-800 transition-colors">
-                    <Edit2 size={18} />
-                  </button>
-                  <button className="text-red-600 hover:text-red-800 transition-colors">
-                    <Trash2 size={18} />
-                  </button>
-                </div>
-              </td>
-            </tr>
+            {filteredPatients.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="text-center text-gray-500 py-4">
+                  Aucun patient trouvé
+                </td>
+              </tr>
+            ) : (
+              filteredPatients.map((p, idx) => (
+                <tr
+                  key={idx}
+                  className="border-b border-gray-200 hover:bg-gray-50"
+                >
+                  <td className="py-3 px-4">{p.nom}</td>
+                  <td className="py-3 px-4">{p.age}</td>
+                  <td className="py-3 px-4">{p.email}</td>
+                  <td className="py-3 px-4">{p.telephone}</td>
+                  <td className="py-3 px-4">
+                    <div className="flex gap-2">
+                      <button className="text-blue-600 hover:text-blue-800 transition-colors">
+                        <Edit2 size={18} />
+                      </button>
+                      <button className="text-red-600 hover:text-red-800 transition-colors">
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
-        <div className="text-center text-gray-500 py-4">
-          Aucun patient trouvé
-        </div>
       </div>
-
-      {showAddForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-xl">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">
-              Ajouter un nouveau patient
-            </h3>
-            <form className="space-y-5">
-              <div>
-                <label className="block text-gray-600 mb-2">Nom complet</label>
-                <input
-                  type="text"
-                  className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-600 mb-2">Sexe</label>
-                <select className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300">
-                  <option value="">Sélectionner</option>
-                  <option value="M">Masculin</option>
-                  <option value="F">Féminin</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-gray-600 mb-2">Email</label>
-                <input
-                  type="email"
-                  className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-600 mb-2">Téléphone</label>
-                <input
-                  type="text"
-                  className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-600 mb-2">Adresse</label>
-                <input
-                  type="text"
-                  className="w-full h-11 bg-gray-50 text-gray-800 rounded-lg px-4 border border-gray-300"
-                />
-              </div>
-              <div className="flex gap-4 mt-8">
-                <button
-                  type="submit"
-                  className="flex-1 h-11 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Ajouter
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowAddForm(false)}
-                  className="flex-1 h-11 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
-                >
-                  Annuler
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
